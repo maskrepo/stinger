@@ -1,10 +1,9 @@
 package fr.convergence.proddoc.kafka
 
-import fr.convergence.proddoc.util.FichierCache
 import fr.convergence.proddoc.model.lib.obj.MaskMessage
 import fr.convergence.proddoc.model.metier.FichierAccessible
 import fr.convergence.proddoc.model.metier.FichierEcrit
-import fr.convergence.proddoc.model.metier.KbisRetour
+import fr.convergence.proddoc.util.FichierCache
 import fr.convergence.proddoc.util.FichierCache.creeURLKbisLocale
 import fr.convergence.proddoc.util.maskIOHandler
 import io.vertx.core.logging.Logger
