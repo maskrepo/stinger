@@ -3,10 +3,11 @@ Lancement : ./gradlew quarkusdev <br>
 (port 8095)
 
 ## Rôle du service
-Maintenir une Map de fichiers
-1) reçoit une demande de mise en cache d'un fichier
-2) met le fichier en cache dans une Map
-3) répond avec l'URL d'accès au fichier en cache
+Stocker un fichier sur disque, et maintenir une Map de fichiers (c'est le "cache local")
+1) reçoit une demande de stockage de fichier
+2) écrit le fichier sur disque
+3) dépose le fichier en cache dans une Map
+4) répond avec l'URL d'accès au fichier en cache
 
 ## Topics utilisés
 STOCKER_FICHIER_DEMANDE<br>

@@ -5,18 +5,15 @@ import fr.convergence.proddoc.model.metier.FichierAccessible
 import fr.convergence.proddoc.model.metier.StockageFichier
 import fr.convergence.proddoc.util.FichierCache
 import fr.convergence.proddoc.util.FichierCache.creeURLKbisLocale
+import fr.convergence.proddoc.util.FichiersUtils.copyInputStreamToFile
+import fr.convergence.proddoc.util.WSUtils.getOctetStreamREST
 import fr.convergence.proddoc.util.maskIOHandler
 import io.vertx.core.logging.Logger
 import io.vertx.core.logging.LoggerFactory.getLogger
-import org.apache.commons.io.FileUtils
 import org.eclipse.microprofile.reactive.messaging.Incoming
 import org.eclipse.microprofile.reactive.messaging.Outgoing
-import java.io.File
-import java.io.InputStream
-import java.util.*
 import javax.enterprise.context.ApplicationScoped
-import javax.ws.rs.client.ClientBuilder
-import javax.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM_TYPE
+
 
 @ApplicationScoped
 class StockageFichier() {
@@ -42,31 +39,26 @@ class StockageFichier() {
         requireNotNull(message.entete.typeDemande) { "message.entete.typeDemande est null" }
         requireNotNull(message.objetMetier) { "message.objectMetier est null" }
 
-        val fichierEcrit = message.recupererObjetMetier<StockageFichier>()
-        val identifiantFichier = fichierEcrit.idMetierFichier
-        val urlAbsFichier = fichierEcrit.fichierURLAbs
+        // décorticage du message reçu
+        val msgStockageFichier = message.recupererObjetMetier<StockageFichier>()
+        val identifiantFichier = msgStockageFichier.idMetierFichier
+        val urlAbsFichier = msgStockageFichier.fichierURLAbs
         LOG.debug("Réception évènement demande de stockage : $urlAbsFichier sous l'identifiant $identifiantFichier")
 
-        val fichierastocker = message.recupererObjetMetier<StockageFichier>()
-        val inputStream = ClientBuilder.newClient()
-                .target(fichierastocker.fichierURLAbs)
-                .request(APPLICATION_OCTET_STREAM_TYPE)
-                .get(InputStream::class.java)
+        // récupération du fichier en application_octet_stream
+        val inputStream = getOctetStreamREST(urlAbsFichier.toString())
         LOG.debug("fichier $identifiantFichier téléchargé")
 
         // écrire fichier sur file system
-        val tempDir = System.getProperty("java.io.tmpdir")
-        LOG.debug("tempDir : $tempDir")
-        val cheminCompletFichier = "$tempDir/$identifiantFichier${UUID.randomUUID()}.fic"
-
-        FileUtils.copyInputStreamToFile(inputStream, File(cheminCompletFichier))
-        LOG.debug("fichier $cheminCompletFichier écrit sur file system")
+        val fichierTemp = createTempFile(identifiantFichier, suffix = ".fic")
+        copyInputStreamToFile(inputStream, fichierTemp)
+        LOG.debug("fichier $fichierTemp écrit sur file system")
 
         // déposer fichier dans cache
-        val fichier = File(cheminCompletFichier)
-        FichierCache.deposeFichierCache(fichier, identifiantFichier,)
+        FichierCache.deposeFichierCache(fichierTemp, identifiantFichier)
         LOG.debug("fichier $identifiantFichier déposé dans cache local")
 
+        // publier réponse avec URL d'accès au fichier dans le cache
         val urlFichier = creeURLKbisLocale(identifiantFichier)
         LOG.debug("URL du fichier accessible sur Stinger : $urlFichier")
         FichierAccessible(urlFichier)
