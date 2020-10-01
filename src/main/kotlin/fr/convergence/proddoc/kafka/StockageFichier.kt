@@ -5,7 +5,7 @@ import fr.convergence.proddoc.model.metier.FichierAccessible
 import fr.convergence.proddoc.model.metier.StockageFichier
 import fr.convergence.proddoc.util.FichierCache
 import fr.convergence.proddoc.util.FichierCache.creeURLKbisLocale
-import fr.convergence.proddoc.util.FichiersUtils.copyInputStreamToFile
+import fr.convergence.proddoc.util.FichiersUtils.copyInputStreamToTempFile
 import fr.convergence.proddoc.util.WSUtils.getOctetStreamREST
 import fr.convergence.proddoc.util.maskIOHandler
 import io.vertx.core.logging.Logger
@@ -50,8 +50,7 @@ class StockageFichier() {
         LOG.debug("fichier $identifiantFichier téléchargé")
 
         // écrire fichier sur file system
-        val fichierTemp = createTempFile(identifiantFichier, suffix = ".fic")
-        copyInputStreamToFile(inputStream, fichierTemp)
+        val fichierTemp = copyInputStreamToTempFile(inputStream,identifiantFichier)
         LOG.debug("fichier $fichierTemp écrit sur file system")
 
         // déposer fichier dans cache
