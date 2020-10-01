@@ -16,10 +16,10 @@ object FichierCache {
      *  crée et retourne l'URL de récupération du Kbis à partir d'un identifiant du cache
      *  l'URL de base est un paramètre "applicatif"...
      */
-    fun creeURLKbisLocale(numGestion: String): String {
+    fun créerURLFichierCache(identifiant: String): String {
 
-        val baseURL = "http://127.0.0.1:8095/"
-        val pathURL = "kbis/pdfnumgestion/$numGestion"
+        val baseURL = "http://127.0.0.1:8095"
+        val pathURL = "/cache/fichierpdf/$identifiant"
         return (baseURL + pathURL)
     }
     /**

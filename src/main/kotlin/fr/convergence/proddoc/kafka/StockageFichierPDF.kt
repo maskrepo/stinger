@@ -4,7 +4,7 @@ import fr.convergence.proddoc.model.lib.obj.MaskMessage
 import fr.convergence.proddoc.model.metier.FichierAccessible
 import fr.convergence.proddoc.model.metier.StockageFichier
 import fr.convergence.proddoc.util.FichierCache
-import fr.convergence.proddoc.util.FichierCache.creeURLKbisLocale
+import fr.convergence.proddoc.util.FichierCache.créerURLFichierCache
 import fr.convergence.proddoc.util.FichiersUtils.copyInputStreamToTempFile
 import fr.convergence.proddoc.util.WSUtils.getOctetStreamREST
 import fr.convergence.proddoc.util.maskIOHandler
@@ -16,7 +16,7 @@ import javax.enterprise.context.ApplicationScoped
 
 
 @ApplicationScoped
-class StockageFichier() {
+class StockageFichierPDF() {
 
     companion object {
         private val LOG: Logger = getLogger(StockageFichier::class.java)
@@ -33,7 +33,7 @@ class StockageFichier() {
 
     @Incoming("stocker_fichier_demande")
     @Outgoing("stocker_fichier_reponse")
-    fun traitementEvenementReceptionFichierEcrit(message: MaskMessage): MaskMessage = maskIOHandler(message) {
+    fun traitementReceptionEvenementStockageFichierPDF(message: MaskMessage): MaskMessage = maskIOHandler(message) {
 
         //@TODO ces requires sont à basculer dans le maskIOHadler
         requireNotNull(message.entete.typeDemande) { "message.entete.typeDemande est null" }
@@ -58,7 +58,7 @@ class StockageFichier() {
         LOG.debug("fichier $identifiantFichier déposé dans cache local")
 
         // publier réponse avec URL d'accès au fichier dans le cache
-        val urlFichier = creeURLKbisLocale(identifiantFichier)
+        val urlFichier = créerURLFichierCache(identifiantFichier)
         LOG.debug("URL du fichier accessible sur Stinger : $urlFichier")
         FichierAccessible(urlFichier)
 

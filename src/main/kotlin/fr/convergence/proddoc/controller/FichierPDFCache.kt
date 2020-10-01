@@ -12,25 +12,25 @@ import javax.ws.rs.core.HttpHeaders
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 
-@Path("/kbis/pdfnumgestion/")
+@Path("/cache/fichierpdf/")
 @Produces("application/pdf")
 @ApplicationScoped
-class KbisAsPDFFromCache {
+class FichierPDFCache {
 
     companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(KbisAsPDFFromCache::class.java)
+        private val LOG: Logger = LoggerFactory.getLogger(FichierPDFCache::class.java)
     }
 
     //   si appel sur le path, retourne le kbis pdf en le récupérant dans le cache
     @GET
-    @Path("{numgestion}")
-    fun numGestionKbis(@PathParam("numgestion") numgestion: String): Response {
+    @Path("{identifiant}")
+    fun fichierParIdentifiantCache(@PathParam("identifiant") identifiant: String): Response {
 
-        requireNotNull(numgestion, {"L'identifiant reçu est null"})
-        val myPDF = FichierCache.recupFichierCache(numgestion)
+        requireNotNull(identifiant, {"L'identifiant reçu est null"})
+        val monFichier = FichierCache.recupFichierCache(identifiant)
 
-        if (myPDF==null) {
-            LOG.debug("Kbis $numgestion introuvable dans le cache")
+        if (monFichier==null) {
+            LOG.debug("Fichier $identifiant introuvable dans le cache")
             return Response
                 .status(Response.Status.NOT_FOUND)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN)
@@ -38,10 +38,10 @@ class KbisAsPDFFromCache {
                 .build()
         }
         else {
-            LOG.debug("Kbis $numgestion trouvé dans le cache")
+            LOG.debug("Fichier $identifiant trouvé dans le cache")
             return Response
                 .status(Response.Status.OK)
-                .entity(myPDF.readBytes())
+                .entity(monFichier.readBytes())
                 .build()
         }
 
