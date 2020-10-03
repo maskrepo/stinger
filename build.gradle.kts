@@ -1,6 +1,6 @@
 val quarkusVersion: String = "1.5.2.Final"
-val MaskModelVersion = "1.0.1-SNAPSHOT"
-val MaskUtilVersion = "1.0.1-SNAPSHOT"
+val MaskModelVersion = "1.0.2-SNAPSHOT"
+val MaskUtilVersion = "1.0.2-SNAPSHOT"
 
 plugins {
     kotlin("jvm") version "1.4.10"
@@ -71,13 +71,8 @@ dependencies {
     testImplementation("io.quarkus:quarkus-junit5")
 }
 
-tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = "11"
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "11"
-    }
+configure<JavaPluginConvention> {
+    sourceCompatibility = JavaVersion.VERSION_11
 }
 
 allOpen {
