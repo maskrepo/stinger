@@ -7,22 +7,21 @@ import fr.convergence.proddoc.model.metier.DemandeStockageFichier
 import fr.convergence.proddoc.model.metier.FichierStocke
 import fr.convergence.proddoc.util.FichierCache
 import fr.convergence.proddoc.util.WSUtils
-import io.vertx.core.logging.Logger
-import io.vertx.core.logging.LoggerFactory
 import org.apache.commons.io.FileUtils
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.eclipse.microprofile.reactive.messaging.Incoming
 import org.eclipse.microprofile.reactive.messaging.Outgoing
+import org.slf4j.LoggerFactory.getLogger
 import javax.inject.Inject
 
-open class StockageFichierService(
-        @ConfigProperty(name = "quarkus.http.host") open val host: String,
-        @ConfigProperty(name = "quarkus.http.port") open val port: String,
-        @Inject val fichierCache: FichierCache
+class StockageFichierService(
+        @ConfigProperty(name = "quarkus.http.host") val host: String,
+        @ConfigProperty(name = "quarkus.http.port") val port: String,
+        @Inject var fichierCache: FichierCache
 ) {
 
     companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(FichierCache::class.java)
+        private val LOG = getLogger(StockageFichierService::class.java)
     }
 
     fun creerURLFichierCache(identifiant: String) = "http://$host:$port${PATH_VERS_STINGER_STREAM}/$identifiant"

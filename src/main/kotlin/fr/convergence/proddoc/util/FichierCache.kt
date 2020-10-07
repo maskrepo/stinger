@@ -1,20 +1,17 @@
 package fr.convergence.proddoc.util
 
-import io.vertx.core.logging.Logger
-import io.vertx.core.logging.LoggerFactory
+import org.slf4j.LoggerFactory.getLogger
 import java.io.File
 import javax.enterprise.context.ApplicationScoped
-import javax.ws.rs.core.MediaType
 
 @ApplicationScoped
 class FichierCache {
 
     companion object {
-        private val LOG: Logger = LoggerFactory.getLogger(FichierCache::class.java)
+        private val LOG = getLogger(FichierCache::class.java)
     }
 
-    private var fichierMap: MutableMap<String, Pair<File, String>> = mutableMapOf()
-
+    private val fichierMap: MutableMap<String, Pair<File, String>> = mutableMapOf()
 
     /**
      * met le fichier reçu dans une map

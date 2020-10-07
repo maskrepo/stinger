@@ -2,7 +2,7 @@ package fr.convergence.proddoc.controller
 
 import fr.convergence.proddoc.controller.StockageControleur.Companion.PATH_VERS_STINGER_STREAM
 import fr.convergence.proddoc.util.FichierCache
-import io.vertx.core.logging.LoggerFactory.getLogger
+import org.slf4j.LoggerFactory.getLogger
 import java.io.FileOutputStream
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response.status
 
 @Path(PATH_VERS_STINGER_STREAM)
 @ApplicationScoped
-class StockageControleur(@Inject val fichierCache: FichierCache) {
+class StockageControleur(@Inject var fichierCache: FichierCache) {
 
     companion object {
 

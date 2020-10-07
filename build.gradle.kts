@@ -1,11 +1,11 @@
-val quarkusVersion: String = "1.5.2.Final"
-val MaskModelVersion = "1.0.2-SNAPSHOT"
-val MaskUtilVersion = "1.0.2-SNAPSHOT"
+val quarkusVersion: String = "1.8.0.Final"
+val MaskModelVersion = "1.0.3-SNAPSHOT"
+val MaskUtilVersion = "1.0.4-SNAPSHOT"
 
 plugins {
     kotlin("jvm") version "1.4.10"
     kotlin("plugin.serialization") version "1.4.10"
-    id ("io.quarkus") version "1.5.2.Final"
+    id ("io.quarkus") version "1.8.0.Final"
     id ("org.jetbrains.kotlin.plugin.allopen") version "1.3.72"
     id ("org.sonarqube") version "2.7"
     id ("jacoco")
@@ -56,13 +56,12 @@ publishing {
 }
 
 dependencies {
-    implementation(enforcedPlatform("io.quarkus:quarkus-bom:$quarkusVersion"))
-    implementation("io.quarkus:quarkus-resteasy")
-    implementation("io.quarkus:quarkus-rest-client")
+    implementation("io.quarkus:quarkus-resteasy:$quarkusVersion")
+    implementation("io.quarkus:quarkus-rest-client:$quarkusVersion")
     implementation("io.quarkus:quarkus-kafka-client:$quarkusVersion")
     implementation("io.quarkus:quarkus-smallrye-reactive-messaging-kafka:$quarkusVersion")
-    implementation("io.quarkus:quarkus-vertx-web")
-    implementation("io.vertx:vertx-web-client")
+    implementation("io.quarkus:quarkus-vertx-web:$quarkusVersion")
+    implementation("io.vertx:vertx-web-client:3.9.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
 
     implementation("fr.convergence.proddoc.lib:mask-model:$MaskModelVersion")
