@@ -63,6 +63,7 @@ dependencies {
     implementation("io.quarkus:quarkus-vertx-web:$quarkusVersion")
     implementation("io.vertx:vertx-web-client:3.9.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
+    implementation("org.jboss.slf4j:slf4j-jboss-logging:1.2.1.Final")
 
     implementation("fr.convergence.proddoc.lib:mask-model:$MaskModelVersion")
     implementation("fr.convergence.proddoc.lib:mask-util:$MaskUtilVersion")
