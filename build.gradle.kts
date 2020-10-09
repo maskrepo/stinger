@@ -1,6 +1,6 @@
 val quarkusVersion: String = "1.8.0.Final"
-val MaskModelVersion = "1.0.3-SNAPSHOT"
-val MaskUtilVersion = "1.0.4-SNAPSHOT"
+val MaskModelVersion = "1.1.2-SNAPSHOT"
+val MaskUtilVersion = "1.1.0-SNAPSHOT"
 
 plugins {
     kotlin("jvm") version "1.4.10"
@@ -68,7 +68,7 @@ dependencies {
     implementation("fr.convergence.proddoc.lib:mask-model:$MaskModelVersion")
     implementation("fr.convergence.proddoc.lib:mask-util:$MaskUtilVersion")
 
-    testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("io.quarkus:quarkus-junit5:$quarkusVersion")
 }
 
 configure<JavaPluginConvention> {
