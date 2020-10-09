@@ -13,11 +13,7 @@ plugins {
 }
 
 group = "fr.convergence.proddoc"
-version = "1.0.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
+version = "1.1.0-SNAPSHOT"
 
 // je mets ces 2 variables ici car je n'arrive pas à les mettre ailleurs
 // (dans settings.gradle.kts par exemple)
@@ -61,6 +57,7 @@ dependencies {
     implementation("io.quarkus:quarkus-kafka-client:$quarkusVersion")
     implementation("io.quarkus:quarkus-smallrye-reactive-messaging-kafka:$quarkusVersion")
     implementation("io.quarkus:quarkus-vertx-web:$quarkusVersion")
+
     implementation("io.vertx:vertx-web-client:3.9.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
     implementation("org.jboss.slf4j:slf4j-jboss-logging:1.2.1.Final")
@@ -78,4 +75,10 @@ configure<JavaPluginConvention> {
 allOpen {
     annotation("javax.enterprise.context.ApplicationScoped")
     annotation("javax.ws.rs.Path")
+}
+
+tasks.register("printVersion") {
+    doLast {
+        File(projectDir, "version.txt").appendText("${project.version}")
+    }
 }
