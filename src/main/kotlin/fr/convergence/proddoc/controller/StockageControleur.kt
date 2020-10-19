@@ -3,6 +3,7 @@ package fr.convergence.proddoc.controller
 import fr.convergence.proddoc.controller.StockageControleur.Companion.PATH_VERS_STINGER_STREAM
 import fr.convergence.proddoc.util.FichierCache
 import org.slf4j.LoggerFactory.getLogger
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -43,7 +44,7 @@ class StockageControleur(@Inject var fichierCache: FichierCache) {
             status(NOT_FOUND).entity("Fichier non trouvé pour cet identifiant : $identifiant")
         } else {
             LOG.debug("Fichier $identifiant trouvé dans le cache")
-            status(OK).entity(FileOutputStream(monFichier))
+            status(OK).entity(FileInputStream(monFichier))
         }.build()
     }
 
@@ -62,7 +63,7 @@ class StockageControleur(@Inject var fichierCache: FichierCache) {
         } else {
             LOG.debug("Fichier $identifiant trouvé dans le cache")
             status(OK)
-                    .entity(monFichier.readBytes())
+                    .entity(FileInputStream(monFichier))
                     .header("Content-type", mediaType)
         }.build()
 
