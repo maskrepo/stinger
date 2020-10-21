@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory.getLogger
 import javax.inject.Inject
 
 class StockageFichierService(
-        @ConfigProperty(name = "quarkus.http.host") val host: String,
-        @ConfigProperty(name = "quarkus.http.port") val port: String,
+        @ConfigProperty(name = "service.http.host") val host: String,
+        @ConfigProperty(name = "service.http.port") val port: String,
         @Inject var fichierCache: FichierCache
 ) {
 
